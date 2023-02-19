@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            border: 1px solid #c0c0c0;
+        }
+
+        th,
+        td {
+            border: 1px solid #d0d0d0;
+            color: #404060;
+            padding: 10px;
+        }
+
+        th {
+            background-color: #09c;
+            font: bold 16px "微软雅黑";
+            color: #fff;
+        }
+
+        td {
+            font: 14px "微软雅黑";
+        }
+    </style>
+</head>
+<body>
+<button onclick="select1()">查询所有</button>
+<button onclick="select2()">定义查询</button>
+<button onclick="insert()">插入数据</button>
+<h1></h1>
+<textarea></textarea>
+<table>
+    <thead>
+    <tr>
+        <th>名字</th>
+        <th>年龄</th>
+    </tr>
+    </thead>
+    <tbody id="tbData">
+    </tbody>
+</table>
+
+<script src="js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+    function select1(){
+        $.ajax({
+            type:"get",
+            url:"select1",
+            contentType:"application/json;charset=utf-8",
+            dataType:"json",
+            success:function (data) {
+                //document.querySelector('textarea').innerText=JSON.stringify(data);
+                $('#tbData').children().remove();
+                for (var i = 0; i < data.length; i++) {
+                    var $tr = $("<tr><td>"
+                        + data[i]['name'] + "</td><td>"
+                        + data[i]['age'] + "</td><tr>");
+                    $('#tbData').append($tr);
+                }
+            },
+            error:function (err) {
+                alert(err);
+            }
+        });
+    }
+    function select2() {
+        $.ajax({
+            type:"get",
+            url:"select2",
+            contentType:"application/json;charset=utf-8",
+            dataType:"json",
+            success:function (data) {
+                document.querySelector('textarea').innerText=JSON.stringify(data);
+            },
+            error:function (err) {
+                alert(err);
+            }
+        });
+    }
+    function insert() {
+        $.ajax({
+            type:"get",
+            url:"insert",
+            data:{
+                name:'lanar',
+                age:19,
+            },
+            contentType:"application/json;charset=utf-8",
+            dataType:"text",
+            success:function (data) {
+                document.querySelector('textarea').innerText=JSON.stringify(data);
+            },
+            error:function (err) {
+                alert(err);
+            }
+        });
+    }
+</script>
+</body>
+</html>
